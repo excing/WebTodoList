@@ -1,7 +1,8 @@
 <script>
 	// GithubSync.svelte - GitHub API 同步组件
-	
-  import { onMount } from 'svelte';
+
+	import { onMount } from 'svelte';
+	import QrCodeGenerator from './QRCodeGenerator.svelte';
 
 	export let tasks = [];
 	export let completedTasks = [];
@@ -15,6 +16,13 @@
 	let syncStatus = '';
 	let syncError = '';
 	let lastSynced = '';
+	let githubConfig = '';
+	let isShowGithubConfigQR = false;
+	let isScanning = true;
+
+	$: {
+		githubConfig = `{"token": ${token}, "gistID": ${gistId}}`;
+	}
 
 	onMount(() => {
 		// 从本地存储中加载 GitHub token 和 gist ID
@@ -165,8 +173,6 @@
 </script>
 
 <div class="github-sync">
-	<h2>GitHub 同步</h2>
-
 	<div class="form-group">
 		<label for="token">GitHub Token (需要 gist 权限)</label>
 		<input type="password" id="token" bind:value={token} placeholder="输入 GitHub Token" />
@@ -177,11 +183,30 @@
 		<input type="text" id="gist" bind:value={gistId} placeholder="输入 Gist ID" />
 	</div>
 
-	<div class="actions">
+	<div class="actions flex flex-wrap">
 		<button class="save-btn" on:click={saveCredentials}>保存凭证</button>
 		<button class="upload-btn" on:click={syncToGithub}>上传到 GitHub</button>
 		<button class="download-btn" on:click={syncFromGithub}>从 GitHub 下载</button>
+		{#if token}
+			<button
+				class="gen-qr-btn"
+				on:click={() => {
+					isShowGithubConfigQR = !isShowGithubConfigQR;
+				}}>配置二维码</button
+			>
+		{/if}
 	</div>
+
+	{#if isShowGithubConfigQR}
+		<QrCodeGenerator
+			data={githubConfig}
+			size={180}
+			errorCorrection="H"
+			qrColor="#2d3748"
+			bgColor="#f7fafc"
+			customClass="mx-auto m-5"
+		/>
+	{/if}
 
 	{#if syncStatus}
 		<div class="status success">{syncStatus}</div>
@@ -252,6 +277,10 @@
 
 	.download-btn {
 		background-color: #9c27b0;
+	}
+
+	.gen-qr-btn {
+		background-color: #333333;
 	}
 
 	.status {
