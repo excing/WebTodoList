@@ -47,194 +47,99 @@
 	}
 </script>
 
-<div class="task" class:completed={type === 'completed'} class:cancelled={type === 'cancelled'}>
-	<div class="task-header">
-		<div class="task-title-container">
-			<h3>{task.title}</h3>
+<div
+	class={`mb-4 rounded-lg border shadow-sm ${
+		type === 'active'
+			? 'border-gray-200 bg-white'
+			: type === 'completed'
+				? 'border-green-200 bg-green-50'
+				: 'border-red-200 bg-red-50'
+	}`}
+>
+	<div class="p-4">
+		<div class="mb-3 flex items-start justify-between">
+			<div>
+				<h3 class="mb-1 text-lg font-medium">{task.title}</h3>
 
-			{#if task.tags && task.tags.length > 0}
-				<div class="tags">
-					{#each task.tags as tag}
-						<span class="tag">{tag}</span>
-					{/each}
-				</div>
-			{/if}
+				{#if task.tags && task.tags.length > 0}
+					<div class="mb-2 flex flex-wrap gap-1">
+						{#each task.tags as tag}
+							<span class="rounded-full bg-gray-200 px-2 py-1 text-xs text-gray-700">{tag}</span>
+						{/each}
+					</div>
+				{/if}
+			</div>
+
+			<div class="text-right text-sm text-gray-600">
+				{#if type === 'active'}
+					<div>值: {task.value}</div>
+					<div>支持: {task.supports}</div>
+				{:else if type === 'completed'}
+					<div>完成于: {formatDate(task.completedDate)}</div>
+				{:else if type === 'cancelled'}
+					<div>取消于: {formatDate(task.cancelledDate)}</div>
+				{/if}
+			</div>
 		</div>
 
-		<div class="task-meta">
+		<div class="mt-3 flex flex-wrap gap-2">
+			<button
+				class="rounded bg-gray-100 px-3 py-1 text-sm text-gray-700 transition-colors duration-200 hover:bg-gray-200"
+				on:click={toggleDetails}
+			>
+				{showDetails ? '隐藏详情' : '显示详情'}
+			</button>
+
 			{#if type === 'active'}
-				<span class="task-value">值: {task.value}</span>
-				<span class="task-supports">支持: {task.supports}</span>
-			{:else if type === 'completed'}
-				<span class="task-date">完成于: {formatDate(task.completedDate)}</span>
-			{:else if type === 'cancelled'}
-				<span class="task-date">取消于: {formatDate(task.cancelledDate)}</span>
+				<button
+					class="rounded bg-green-500 px-3 py-1 text-sm text-white transition-colors duration-200 hover:bg-green-600"
+					on:click={() => dispatch('complete')}
+				>
+					完成
+				</button>
+
+				<button
+					class="rounded bg-red-500 px-3 py-1 text-sm text-white transition-colors duration-200 hover:bg-red-600"
+					on:click={() => dispatch('cancel')}
+				>
+					取消
+				</button>
+
+				<button
+					class="rounded bg-blue-500 px-3 py-1 text-sm text-white transition-colors duration-200 hover:bg-blue-600"
+					on:click={() => dispatch('addSupport')}
+				>
+					+支持
+				</button>
+
+				<button
+					class="rounded bg-orange-500 px-3 py-1 text-sm text-white transition-colors duration-200 hover:bg-orange-600"
+					on:click={() => dispatch('removeSupport')}
+				>
+					-支持
+				</button>
+			{:else}
+				<button
+					class="rounded bg-purple-500 px-3 py-1 text-sm text-white transition-colors duration-200 hover:bg-purple-600"
+					on:click={() => dispatch('restore')}
+				>
+					恢复
+				</button>
 			{/if}
 		</div>
-	</div>
 
-	<div class="task-actions">
-		<button class="details-btn" on:click={toggleDetails}>
-			{showDetails ? '隐藏详情' : '显示详情'}
-		</button>
+		{#if showDetails}
+			<div class="mt-4 border-t border-gray-200 pt-4" transition:slide={{ duration: 300 }}>
+				<div class="mb-2 text-xs text-gray-500">创建于: {formatDate(task.created)}</div>
 
-		{#if type === 'active'}
-			<button class="complete-btn" on:click={() => dispatch('complete')}> 完成 </button>
-			<button class="cancel-btn" on:click={() => dispatch('cancel')}> 取消 </button>
-			<button class="add-support-btn" on:click={() => dispatch('addSupport')}> +支持 </button>
-			<button class="remove-support-btn" on:click={() => dispatch('removeSupport')}> -支持 </button>
-		{:else}
-			<button class="restore-btn" on:click={() => dispatch('restore')}> 恢复 </button>
+				{#if task.description}
+					<div class="prose prose-sm max-w-none">
+						{@html convertMarkdown(task.description)}
+					</div>
+				{:else}
+					<p class="text-gray-500 italic">无详细描述</p>
+				{/if}
+			</div>
 		{/if}
 	</div>
-
-	{#if showDetails}
-		<div class="task-details" transition:slide={{ duration: 300 }}>
-			<div class="created-date">创建于: {formatDate(task.created)}</div>
-
-			{#if task.description}
-				<div class="description">
-					{@html convertMarkdown(task.description)}
-				</div>
-			{:else}
-				<p class="no-description">无详细描述</p>
-			{/if}
-		</div>
-	{/if}
 </div>
-
-<style>
-	.task {
-		background-color: #fff;
-		border: 1px solid #ddd;
-		border-radius: 5px;
-		padding: 15px;
-		margin-bottom: 15px;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-	}
-
-	.task.completed {
-		background-color: #f0fff0;
-		border-color: #c8e6c9;
-	}
-
-	.task.cancelled {
-		background-color: #fff0f0;
-		border-color: #ffcdd2;
-	}
-
-	.task-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: flex-start;
-		margin-bottom: 10px;
-	}
-
-	.task-title-container {
-		display: flex;
-		flex-direction: column;
-	}
-
-	h3 {
-		margin: 0;
-		margin-bottom: 5px;
-	}
-
-	.tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 5px;
-		margin-bottom: 5px;
-	}
-
-	.tag {
-		background-color: #e0e0e0;
-		padding: 2px 8px;
-		border-radius: 10px;
-		font-size: 12px;
-	}
-
-	.task-meta {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-end;
-		gap: 5px;
-	}
-
-	.task-value,
-	.task-supports,
-	.task-date {
-		font-size: 14px;
-		color: #666;
-	}
-
-	.task-actions {
-		display: flex;
-		gap: 8px;
-		margin-top: 10px;
-	}
-
-	button {
-		padding: 5px 10px;
-		border: none;
-		border-radius: 3px;
-		cursor: pointer;
-		font-size: 14px;
-	}
-
-	.details-btn {
-		background-color: #f1f1f1;
-		color: #333;
-	}
-
-	.complete-btn {
-		background-color: #4caf50;
-		color: white;
-	}
-
-	.cancel-btn {
-		background-color: #f44336;
-		color: white;
-	}
-
-	.add-support-btn {
-		background-color: #2196f3;
-		color: white;
-	}
-
-	.remove-support-btn {
-		background-color: #ff9800;
-		color: white;
-	}
-
-	.restore-btn {
-		background-color: #9c27b0;
-		color: white;
-	}
-
-	.task-details {
-		margin-top: 15px;
-		padding-top: 15px;
-		border-top: 1px solid #eee;
-	}
-
-	.created-date {
-		font-size: 12px;
-		color: #999;
-		margin-bottom: 10px;
-	}
-
-	.description {
-		font-size: 14px;
-		line-height: 1.5;
-	}
-
-	.no-description {
-		font-style: italic;
-		color: #999;
-	}
-
-	button:hover {
-		opacity: 0.9;
-	}
-</style>

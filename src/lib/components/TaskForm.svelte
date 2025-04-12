@@ -53,72 +53,44 @@
 	}
 </script>
 
-<div class="task-form">
-	<h2>创建新任务</h2>
+<div class="mb-5 rounded-lg bg-gray-100 p-4 shadow-sm">
+	<h2 class="mb-3 text-lg font-semibold text-gray-700">创建新任务</h2>
 
 	{#if errorMessage}
-		<div class="error">{errorMessage}</div>
+		<div class="mb-4 rounded bg-red-50 p-3 text-red-700">{errorMessage}</div>
 	{/if}
 
-	<div class="form-group">
-		<label for="title">标题</label>
-		<input id="title" bind:value={title} placeholder="任务标题" />
+	<div class="mb-4">
+		<label for="title" class="mb-1 block font-medium text-gray-700">标题</label>
+		<input
+			id="title"
+			bind:value={title}
+			placeholder="任务标题"
+			class="w-full rounded border border-gray-300 p-2 focus:border-transparent focus:ring-2 focus:ring-green-500 focus:outline-none"
+		/>
 	</div>
 
-	<div class="form-group">
-		<label for="description">详细描述 (支持 Markdown)</label>
+	<div class="mb-4">
+		<label for="description" class="mb-1 block font-medium text-gray-700"
+			>详细描述 (支持 Markdown)</label
+		>
 		<MarkdownEditor bind:value={description} />
 	</div>
 
-	<div class="form-group">
-		<label for="tags">标签 (用逗号分隔)</label>
-		<input id="tags" bind:value={tags} placeholder="例如: 工作, 紧急, 学习" />
+	<div class="mb-4">
+		<label for="tags" class="mb-1 block font-medium text-gray-700">标签 (用逗号分隔)</label>
+		<input
+			id="tags"
+			bind:value={tags}
+			placeholder="例如: 工作, 紧急, 学习"
+			class="w-full rounded border border-gray-300 p-2 focus:border-transparent focus:ring-2 focus:ring-green-500 focus:outline-none"
+		/>
 	</div>
 
-	<button on:click={addTask}>创建任务 (消耗1点)</button>
+	<button
+		on:click={addTask}
+		class="focus:ring-opacity-50 rounded bg-green-500 px-4 py-2 text-white transition-colors duration-200 hover:bg-green-600 focus:ring-2 focus:ring-green-500 focus:outline-none"
+	>
+		创建任务 (消耗1点)
+	</button>
 </div>
-
-<style>
-	.task-form {
-		background-color: #f5f5f5;
-		padding: 15px;
-		border-radius: 5px;
-		margin-bottom: 20px;
-	}
-
-	.form-group {
-		margin-bottom: 15px;
-	}
-
-	label {
-		display: block;
-		margin-bottom: 5px;
-		font-weight: bold;
-	}
-
-	input,
-	textarea {
-		width: 100%;
-		padding: 8px;
-		border: 1px solid #ddd;
-		border-radius: 4px;
-	}
-
-	button {
-		background-color: #4caf50;
-		color: white;
-		border: none;
-		padding: 10px 15px;
-		border-radius: 4px;
-		cursor: pointer;
-	}
-
-	button:hover {
-		background-color: #45a049;
-	}
-
-	.error {
-		color: #d32f2f;
-		margin-bottom: 15px;
-	}
-</style>

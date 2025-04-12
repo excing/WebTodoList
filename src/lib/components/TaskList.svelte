@@ -166,11 +166,12 @@
 <div class="task-list">
 	<h2>
 		{#if type === 'active'}
-			活跃任务
-		{:else if type === 'completed'}
-			已完成任务
-		{:else if type === 'cancelled'}
-			已取消任务
+			<button
+				class="focus:ring-opacity-50 rounded bg-green-500 px-4 py-2 text-white transition-colors duration-200 hover:bg-green-600 focus:ring-2 focus:ring-green-500 focus:outline-none"
+				on:click={() => {
+					dispatch('addTask');
+				}}>添加新任务</button
+			>
 		{/if}
 	</h2>
 

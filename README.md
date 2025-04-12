@@ -2,6 +2,23 @@
 
 一个采用自然增值法管理的 Todo list 本地可离线的 WebAPP
 
+其核心功能如下：
+* 自然增值法：每分钟该任务的分值增加 n 点，n 为任务当前的支持点数
+* 用户每发布或支持一个任务，即消耗一个支持点数
+* 用户每天（00:00）可获得 5 个支持点数
+* 减少对一个任务的支持，可获得一个支持点数
+* 当一个任务支持点数为 0 时，该任务将被取消
+* 有一个取消列表
+* 任务详细支持 markdown 文本格式
+* 可编辑任务
+* 使用 tailwindcss 处理UI样式
+* Todo list 为主要界面
+* 支持标签和支持按标签查看任务列表
+* 支持活动图表（类似 github 贡献图表），展示了用户在 app 上的活动情况，包括每天的todo/done/support 数量、创建/完成/支持的任务等。
+* 支持数据同步，采用 github api （gist） 实现。
+ * 当添加相关设置后，则隐藏相关配置界面
+* 使用 ts 编写，使用 svelte 框架。 
+
 # sv
 
 Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).

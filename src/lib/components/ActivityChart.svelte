@@ -5,7 +5,7 @@
 	export let data = [];
 
 	let calendarData = [];
-	let weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+	let weekdays = ['Mon.', '周日', '周一', '周二', '周三', '周四', '周五', '周六'];
 	let months = [
 		'1月',
 		'2月',
@@ -118,29 +118,30 @@
 
 	<div class="calendar-container">
 		<div class="weekday-labels">
-			{#each Array(7) as _, i}
-				<div class="weekday-label">{weekdays[i]}</div>
+			{#each weekdays as weekday, i}
+				<div class="weekday-label">{weekday}</div>
 			{/each}
 		</div>
 
-		<div class="calendar">
-			{#each calendarData as week}
-				<div class="week">
-					{#each week as day}
-						<div
-							class="day"
-							style="background-color: {getActivityColor(day.activityCount)}"
-							title="{formatDate(day.date)}: {getActivityDetails(day.details)}"
-						></div>
-					{/each}
-				</div>
-			{/each}
-		</div>
-
-		<div class="month-labels">
-			{#each months as month, i}
-				<div class="month-label">{month}</div>
-			{/each}
+		<div style="overflow-x: auto;">
+			<div class="month-labels">
+				{#each months as month, i}
+					<div class="month-label">{month}</div>
+				{/each}
+			</div>
+			<div class="calendar">
+				{#each calendarData as week}
+					<div class="week">
+						{#each week as day}
+							<div
+								class="day"
+								style="background-color: {getActivityColor(day.activityCount)}"
+								title="{formatDate(day.date)}: {getActivityDetails(day.details)}"
+							></div>
+						{/each}
+					</div>
+				{/each}
+			</div>
 		</div>
 	</div>
 
@@ -213,7 +214,7 @@
 
 	.weekday-label {
 		height: 12px;
-		margin-bottom: 3px;
+		margin-bottom: 4px;
 		font-size: 12px;
 		color: #767676;
 		text-align: right;

@@ -14,6 +14,10 @@
 	import ActivityChart from './components/ActivityChart.svelte';
 	import GithubSync from './components/GithubSync.svelte';
 	import { incrementTaskValues } from './utils.js';
+	import Modal from './components/Modal.svelte';
+
+	let isSyncOpen = false;
+	let isTaskFormOpen = false;
 
 	let activeTab = 'active';
 	let activityData = [];
@@ -111,26 +115,58 @@
 	}
 </script>
 
-<main>
-	<h1>自然增值 Todo List</h1>
+<main class="mx-auto max-w-4xl p-5 font-sans">
+	<div class="flex justify-between">
+		<h1 class="mb-5 text-2xl font-bold text-gray-800">Todo</h1>
+		<div>
+			<button
+				on:click={() => {
+					isSyncOpen = true;
+				}}>同步</button
+			>
+		</div>
+	</div>
 
 	<PointsDisplay points={$userPoints} />
 
-	<GithubSync
-		{activityData}
-		tasks={$tasks}
-		completedTasks={$completedTasks}
-		cancelledTasks={$cancelledTasks}
-		userPoints={$userPoints}
-		lastDayPointsAdded={$lastDayPointsAdded}
-	/>
+	<Modal
+		isOpen={isSyncOpen}
+		title="Advanced Settings"
+		onCancel={() => {
+			isSyncOpen = false;
+		}}
+	>
+		<GithubSync
+			{activityData}
+			tasks={$tasks}
+			completedTasks={$completedTasks}
+			cancelledTasks={$cancelledTasks}
+			userPoints={$userPoints}
+			lastDayPointsAdded={$lastDayPointsAdded}
+		/>
+	</Modal>
 
-	<TaskForm on:taskAction={handleTaskAction} />
+	<Modal
+		isOpen={isTaskFormOpen}
+		title="Advanced Settings"
+		onCancel={() => {
+			isTaskFormOpen = false;
+		}}
+	>
+		<TaskForm on:taskAction={handleTaskAction} />
+	</Modal>
 
 	<Tabs bind:activeTab />
 
 	{#if activeTab === 'active'}
-		<TaskList tasks={$tasks} type="active" on:taskAction={handleTaskAction} />
+		<TaskList
+			tasks={$tasks}
+			type="active"
+			on:taskAction={handleTaskAction}
+			on:addTask={() => {
+				isTaskFormOpen = true;
+			}}
+		/>
 	{:else if activeTab === 'completed'}
 		<TaskList tasks={$completedTasks} type="completed" on:taskAction={handleTaskAction} />
 	{:else if activeTab === 'cancelled'}
@@ -139,18 +175,3 @@
 		<ActivityChart data={activityData} />
 	{/if}
 </main>
-
-<style>
-	main {
-		max-width: 800px;
-		margin: 0 auto;
-		padding: 20px;
-		font-family: Arial, sans-serif;
-	}
-
-	h1 {
-		color: #333;
-		text-align: center;
-		margin-bottom: 20px;
-	}
-</style>

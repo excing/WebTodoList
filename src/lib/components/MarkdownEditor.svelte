@@ -46,58 +46,26 @@
 	}
 </script>
 
-<div class="markdown-editor">
-	<div class="toolbar">
-		<button type="button" on:click={togglePreview}>
+<div class="overflow-hidden rounded border border-gray-300">
+	<div class="border-b border-gray-300 bg-gray-100 px-3 py-2">
+		<button
+			type="button"
+			class="rounded border border-gray-300 bg-white px-3 py-1 text-sm transition-colors duration-200 hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+			on:click={togglePreview}
+		>
 			{showPreview ? '编辑' : '预览'}
 		</button>
 	</div>
 
 	{#if showPreview}
-		<div class="preview">
+		<div class="prose prose-sm min-h-40 max-w-none bg-white p-3">
 			{@html preview}
 		</div>
 	{:else}
-		<textarea bind:value placeholder="支持 Markdown 格式"></textarea>
+		<textarea
+			bind:value
+			placeholder="支持 Markdown 格式"
+			class="min-h-40 w-full resize-y border-none p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+		></textarea>
 	{/if}
 </div>
-
-<style>
-	.markdown-editor {
-		border: 1px solid #ddd;
-		border-radius: 4px;
-		overflow: hidden;
-	}
-
-	.toolbar {
-		background-color: #f1f1f1;
-		padding: 5px;
-		border-bottom: 1px solid #ddd;
-	}
-
-	textarea {
-		width: 100%;
-		min-height: 150px;
-		padding: 8px;
-		border: none;
-		resize: vertical;
-	}
-
-	.preview {
-		min-height: 150px;
-		padding: 8px;
-		background-color: #fff;
-	}
-
-	button {
-		background-color: #f1f1f1;
-		border: 1px solid #ddd;
-		padding: 4px 8px;
-		border-radius: 3px;
-		cursor: pointer;
-	}
-
-	button:hover {
-		background-color: #e1e1e1;
-	}
-</style>
