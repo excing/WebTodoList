@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import {
 		tasks,
@@ -20,14 +20,14 @@
 	let isTaskFormOpen = false;
 
 	let activeTab = 'active';
-	let activityData = [];
-	let intervalId;
+	let activityData: any[] = [];
+	let intervalId: number;
 
 	// 检查是否需要添加每日点数
 	function checkDailyPoints() {
 		let today = new Date().toLocaleDateString();
 		if ($lastDayPointsAdded !== today) {
-			userPoints.update((points) => points + 5);
+			userPoints.set(5);
 			lastDayPointsAdded.set(today);
 
 			// 记录活动
@@ -98,6 +98,8 @@
 	// 监视存储变化并保存到localStorage
 	$: {
 		if (typeof localStorage !== 'undefined') {
+			console.log("localStorage update");
+			
 			if ($tasks) localStorage.setItem('tasks', JSON.stringify($tasks));
 			if ($completedTasks) localStorage.setItem('completedTasks', JSON.stringify($completedTasks));
 			if ($cancelledTasks) localStorage.setItem('cancelledTasks', JSON.stringify($cancelledTasks));
@@ -112,6 +114,8 @@
 		// 记录活动
 		const today = date || new Date().toISOString().split('T')[0];
 		updateActivityData(today, action);
+
+		isTaskFormOpen = false;
 	}
 </script>
 
@@ -131,7 +135,7 @@
 
 	<Modal
 		isOpen={isSyncOpen}
-		title="Advanced Settings"
+		title="同步到 GitHub Gist"
 		onCancel={() => {
 			isSyncOpen = false;
 		}}
@@ -148,7 +152,7 @@
 
 	<Modal
 		isOpen={isTaskFormOpen}
-		title="Advanced Settings"
+		title="创建新任务"
 		onCancel={() => {
 			isTaskFormOpen = false;
 		}}

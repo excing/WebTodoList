@@ -185,15 +185,16 @@
 
 	<div class="actions flex flex-wrap">
 		<button class="save-btn" on:click={saveCredentials}>保存凭证</button>
-		<button class="upload-btn" on:click={syncToGithub}>上传到 GitHub</button>
-		<button class="download-btn" on:click={syncFromGithub}>从 GitHub 下载</button>
 		{#if token}
+			<button class="upload-btn" on:click={syncToGithub}>上传到 GitHub</button>
+			<button class="download-btn" on:click={syncFromGithub}>从 GitHub 下载</button>
 			<button
 				class="gen-qr-btn"
 				on:click={() => {
 					isShowGithubConfigQR = !isShowGithubConfigQR;
 				}}>配置二维码</button
 			>
+			<a class="open-gh-btn" href="https://gist.github.com/{gistId}">打开 GitHub Gist</a>
 		{/if}
 	</div>
 
@@ -258,7 +259,8 @@
 		margin-bottom: 15px;
 	}
 
-	button {
+	button,
+	a {
 		padding: 8px 15px;
 		border: none;
 		border-radius: 4px;
@@ -269,6 +271,10 @@
 
 	.save-btn {
 		background-color: #4caf50;
+	}
+
+	.open-gh-btn {
+		background-color: #d65900;
 	}
 
 	.upload-btn {

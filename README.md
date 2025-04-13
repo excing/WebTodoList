@@ -19,6 +19,13 @@
  * 当添加相关设置后，则隐藏相关配置界面
 * 使用 ts 编写，使用 svelte 框架。 
 
+## CHANGLOG
+
+### 4/13/2025
+
+- 添加打开 github gist 页面链接
+- 用户每天（00:00）可获得 5 个支持点数，不可叠加
+
 # sv
 
 Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).

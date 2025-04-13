@@ -54,8 +54,6 @@
 </script>
 
 <div class="mb-5 rounded-lg bg-gray-100 p-4 shadow-sm">
-	<h2 class="mb-3 text-lg font-semibold text-gray-700">创建新任务</h2>
-
 	{#if errorMessage}
 		<div class="mb-4 rounded bg-red-50 p-3 text-red-700">{errorMessage}</div>
 	{/if}
