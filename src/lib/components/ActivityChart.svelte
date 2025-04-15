@@ -5,7 +5,7 @@
 	export let data = [];
 
 	let calendarData = [];
-	let weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+	let weekdays = ['Sun.', 'Mon.', 'Tues.', 'Wed.', 'Thur.', 'Fri.', 'Sat.'];
 	let today = new Date();
 
 	// 为过去一年准备数据
@@ -188,6 +188,7 @@
 	}
 
 	.weekday-labels {
+		margin-top: -3px;
 		display: flex;
 		flex-direction: column;
 		margin-right: 10px;
@@ -195,7 +196,7 @@
 
 	.weekday-label {
 		height: 12px;
-		margin-bottom: 4px;
+		margin-bottom: 3px;
 		font-size: 12px;
 		color: #767676;
 		text-align: right;
