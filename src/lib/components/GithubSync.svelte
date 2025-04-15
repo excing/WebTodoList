@@ -3,6 +3,7 @@
 
 	import { onMount } from 'svelte';
 	import QrCodeGenerator from './QRCodeGenerator.svelte';
+	import { saveData } from '$lib/utils';
 
 	export let tasks = [];
 	export let completedTasks = [];
@@ -150,10 +151,7 @@
 			activityData.splice(0, activityData.length, ...appData.activityData);
 
 			// 保存到本地存储
-			localStorage.setItem('tasks', JSON.stringify(tasks));
-			localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
-			localStorage.setItem('cancelledTasks', JSON.stringify(cancelledTasks));
-			localStorage.setItem('userPoints', userPoints.toString());
+			saveData(tasks, completedTasks, cancelledTasks, userPoints, lastDayPointsAdded, activityData);
 			localStorage.setItem('lastDayPointsAdded', lastDayPointsAdded);
 			localStorage.setItem('activityData', JSON.stringify(activityData));
 

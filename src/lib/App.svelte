@@ -62,16 +62,18 @@
 		const storedLastDayPointsAdded = localStorage.getItem('lastDayPointsAdded');
 		const storedActivityData = localStorage.getItem('activityData');
 
-		if (storedTasks) $tasks = JSON.parse(storedTasks);
-		if (storedCompletedTasks) $completedTasks = JSON.parse(storedCompletedTasks);
-		if (storedCancelledTasks) $cancelledTasks = JSON.parse(storedCancelledTasks);
-		if (storedUserPoints) $userPoints = parseInt(storedUserPoints);
-		if (storedLastDayPointsAdded) $lastDayPointsAdded = storedLastDayPointsAdded;
+		if (storedTasks) tasks.set(JSON.parse(storedTasks));
+		if (storedCompletedTasks) completedTasks.set(JSON.parse(storedCompletedTasks));
+		if (storedCancelledTasks) cancelledTasks.set(JSON.parse(storedCancelledTasks));
+		if (storedUserPoints) userPoints.set(parseInt(storedUserPoints));
+		if (storedLastDayPointsAdded) lastDayPointsAdded.set(storedLastDayPointsAdded);
 		if (storedActivityData) activityData = JSON.parse(storedActivityData);
+
+		incrementTaskValues();
 
 		// 每分钟增加任务分值
 		intervalId = setInterval(() => {
-			incrementTaskValues($tasks);
+			incrementTaskValues();
 			// 保存更新后的任务到本地存储
 			localStorage.setItem('tasks', JSON.stringify($tasks));
 		}, 60000); // 每分钟执行一次
@@ -94,19 +96,6 @@
 	onDestroy(() => {
 		clearInterval(intervalId);
 	});
-
-	// 监视存储变化并保存到localStorage
-	$: {
-		if (typeof localStorage !== 'undefined') {
-			console.log("localStorage update");
-			
-			if ($tasks) localStorage.setItem('tasks', JSON.stringify($tasks));
-			if ($completedTasks) localStorage.setItem('completedTasks', JSON.stringify($completedTasks));
-			if ($cancelledTasks) localStorage.setItem('cancelledTasks', JSON.stringify($cancelledTasks));
-			if ($userPoints) localStorage.setItem('userPoints', $userPoints.toString());
-			if ($lastDayPointsAdded) localStorage.setItem('lastDayPointsAdded', $lastDayPointsAdded);
-		}
-	}
 
 	function handleTaskAction(event) {
 		const { action, date, taskId } = event.detail;
@@ -141,12 +130,12 @@
 		}}
 	>
 		<GithubSync
-			{activityData}
-			tasks={$tasks}
-			completedTasks={$completedTasks}
-			cancelledTasks={$cancelledTasks}
-			userPoints={$userPoints}
-			lastDayPointsAdded={$lastDayPointsAdded}
+			bind:activityData
+			bind:tasks={$tasks}
+			bind:completedTasks={$completedTasks}
+			bind:cancelledTasks={$cancelledTasks}
+			bind:userPoints={$userPoints}
+			bind:lastDayPointsAdded={$lastDayPointsAdded}
 		/>
 	</Modal>
 

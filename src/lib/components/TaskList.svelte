@@ -3,6 +3,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import { tasks as tasksStore, completedTasks, cancelledTasks, userPoints } from '../stores.js';
 	import Task from './Task.svelte';
+	import { saveData } from '$lib/utils.js';
 
 	export let tasks = [];
 	export let type = 'active'; // active, completed, cancelled
@@ -28,6 +29,8 @@
 				action: 'complete',
 				taskId
 			});
+
+			saveData($tasksStore, $completedTasks, $cancelledTasks, $userPoints);
 		}
 	}
 
@@ -50,6 +53,8 @@
 				action: 'cancel',
 				taskId
 			});
+
+			saveData($tasksStore, $completedTasks, $cancelledTasks, $userPoints);
 		}
 	}
 
@@ -75,6 +80,8 @@
 			action: 'support',
 			taskId
 		});
+
+		saveData($tasksStore, $completedTasks, $cancelledTasks, $userPoints);
 	}
 
 	function removeSupport(taskId) {
@@ -118,6 +125,8 @@
 			action: 'unsupport',
 			taskId
 		});
+
+		saveData($tasksStore, $completedTasks, $cancelledTasks, $userPoints);
 	}
 
 	function restoreTask(taskId) {
@@ -159,6 +168,8 @@
 				action: 'restore',
 				taskId
 			});
+
+			saveData($tasksStore, $completedTasks, $cancelledTasks, $userPoints);
 		}
 	}
 </script>

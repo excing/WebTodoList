@@ -5,21 +5,7 @@
 	export let data = [];
 
 	let calendarData = [];
-	let weekdays = ['Mon.', '周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-	let months = [
-		'1月',
-		'2月',
-		'3月',
-		'4月',
-		'5月',
-		'6月',
-		'7月',
-		'8月',
-		'9月',
-		'10月',
-		'11月',
-		'12月'
-	];
+	let weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
 	let today = new Date();
 
 	// 为过去一年准备数据
@@ -124,11 +110,6 @@
 		</div>
 
 		<div style="overflow-x: auto;">
-			<div class="month-labels">
-				{#each months as month, i}
-					<div class="month-label">{month}</div>
-				{/each}
-			</div>
 			<div class="calendar">
 				{#each calendarData as week}
 					<div class="week">

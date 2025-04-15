@@ -32,6 +32,7 @@
 				.map((tag) => tag.trim())
 				.filter((tag) => tag),
 			created: new Date().toISOString(),
+			updated: new Date().toISOString(),
 			value: 0,
 			supports: 1 // 创建时默认支持1点
 		};
