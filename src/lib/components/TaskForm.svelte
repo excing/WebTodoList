@@ -2,8 +2,9 @@
 	// TaskForm.svelte
 
 	import { createEventDispatcher } from 'svelte';
-	import { tasks, userPoints } from '../stores.js';
+	import { cancelledTasks, completedTasks, tasks, userPoints } from '../stores.js';
 	import MarkdownEditor from './MarkdownEditor.svelte';
+	import { saveData } from '$lib/utils.js';
 
 	const dispatch = createEventDispatcher();
 
@@ -39,6 +40,8 @@
 
 		tasks.update((currentTasks) => [...currentTasks, newTask]);
 		userPoints.update((points) => points - 1); // 消耗一个支持点
+
+		saveData($tasks, $completedTasks, $cancelledTasks, $userPoints);
 
 		// 记录此活动
 		dispatch('taskAction', {

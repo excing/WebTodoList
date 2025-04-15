@@ -72,7 +72,7 @@
 
 			<div class="text-right text-sm text-gray-600">
 				{#if type === 'active'}
-					<div>值: {task.value}</div>
+					<div class="text-xl text-orange-400">值: {task.value}</div>
 					<div>支持: {task.supports}</div>
 				{:else if type === 'completed'}
 					<div>完成于: {formatDate(task.completedDate)}</div>
@@ -98,12 +98,14 @@
 					完成
 				</button>
 
-				<button
+				<!-- <button
 					class="rounded bg-red-500 px-3 py-1 text-sm text-white transition-colors duration-200 hover:bg-red-600"
 					on:click={() => dispatch('cancel')}
 				>
 					取消
-				</button>
+				</button> -->
+
+				<div class="flex-1"></div>
 
 				<button
 					class="rounded bg-blue-500 px-3 py-1 text-sm text-white transition-colors duration-200 hover:bg-blue-600"
