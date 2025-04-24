@@ -68,6 +68,7 @@
 			id="title"
 			bind:value={title}
 			placeholder="任务标题"
+			autocomplete="off"
 			class="w-full rounded border border-gray-300 p-2 focus:border-transparent focus:ring-2 focus:ring-green-500 focus:outline-none"
 		/>
 	</div>
@@ -85,6 +86,7 @@
 			id="tags"
 			bind:value={tags}
 			placeholder="例如: 工作, 紧急, 学习"
+			autocomplete="off"
 			class="w-full rounded border border-gray-300 p-2 focus:border-transparent focus:ring-2 focus:ring-green-500 focus:outline-none"
 		/>
 	</div>
